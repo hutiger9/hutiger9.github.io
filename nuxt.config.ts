@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/stylelint-module',
   ],
   app: {
-    rootId: 'nuxt-root',
+    rootId: 'Hutiger-s-blog',
     head: {
       meta: [
         { name: 'description', content: siteConfig.description },
@@ -31,6 +31,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  nitro: {
+    preset: 'static'
+  }, 
   content: {
     highlight: {
       theme: {
