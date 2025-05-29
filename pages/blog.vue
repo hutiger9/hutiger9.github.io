@@ -14,9 +14,17 @@ onMounted(() => {
 });
 onMounted(async () => {
   const namespace = 'your-blog'
-  const key = encodeURIComponent(route.path) // 确保与列表页 slug 相同
-  await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-});
+  const isDetailPage = route.path !== '/blog' && route.path.startsWith('/blog/')
+
+  if (isDetailPage) {
+    const key = encodeURIComponent(route.path)
+    try {
+      await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+    } catch (e) {
+      console.warn('计数请求失败：', e)
+    }
+  }
+})
 </script>
 <template>
   <sub-nav />

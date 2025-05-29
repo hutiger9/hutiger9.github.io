@@ -37,6 +37,12 @@ export default defineNuxtConfig({
       noscript: [
         { children: 'JavaScript is required' },
       ],
+      script: [
+        {
+          src: 'https://cn.vercount.one/js',
+          defer: true,
+        },
+      ],
       htmlAttrs: {
         lang: siteConfig.lang,
       },
