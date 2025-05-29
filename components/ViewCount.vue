@@ -5,15 +5,24 @@ const props = defineProps<{ slug: string }>()
 const views = ref<number>(0)
 
 onMounted(async () => {
+  const hasVisited = localStorage.getItem(`viewed-${props.slug}`)
+  const namespace = 'hutiger9.github.io'
+  const key = encodeURIComponent(props.slug)
+
   try {
-    const namespace = 'hutiger9.github.io'
-    const key = encodeURIComponent(props.slug)
-    const res = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`)
+    const url = hasVisited
+      ? `https://api.countapi.xyz/get/${namespace}/${key}`
+      : `https://api.countapi.xyz/hit/${namespace}/${key}`
+
+    const res = await fetch(url)
     const json = await res.json()
-    views.value = json.value ?? 0
+    views.value = json?.value || 0
+
+    if (!hasVisited) {
+      localStorage.setItem(`viewed-${props.slug}`, '1')
+    }
   } catch (e) {
     console.warn('读取 ViewCount 失败，使用默认值 0')
-    views.value = 0
   }
 })
 </script>

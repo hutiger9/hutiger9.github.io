@@ -11,8 +11,8 @@ const path = post.join('/')
     <ContentDoc :path="path">
       <template #default="{ doc }">
         <doc-back />
-        <doc-render :article="doc" />
-        <doc-toc :toc="doc.body.toc" />
+        <doc-render v-if="doc" :article="doc" />
+        <doc-toc v-if="doc && doc.body" :toc="doc.body.toc" />
         <!-- config your giscus -->
         <Giscus
           repo="hutiger9/hutiger9.github.io"

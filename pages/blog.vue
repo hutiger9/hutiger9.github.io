@@ -2,6 +2,7 @@
 import { getIncludedYearPosts } from '@/utils'
 import { onMounted } from 'vue'
 const posts = await getIncludedYearPosts('blog')
+const route = useRoute()
 onMounted(() => {
   if (!document.getElementById("busuanzi-script")) {
     const script = document.createElement("script");
