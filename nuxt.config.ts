@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { siteConfig } from './site.config'
+import { defineNuxtConfig } from 'nuxt/config'
+import { presetUno, presetIcons } from 'unocss'
 
 export default defineNuxtConfig({
   modules: [
@@ -8,6 +10,18 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxtjs/stylelint-module',
   ],
+  unocss: {
+    presets: [
+      presetUno(),
+      presetIcons({
+        scale: 1.2,
+        extraProperties: {
+          display: 'inline-block',
+          'vertical-align': 'middle',
+        },
+      }),
+    ],
+  },
   app: {
     rootId: 'Hutiger-s-blog',
     head: {
@@ -63,4 +77,5 @@ export default defineNuxtConfig({
     /* module options */
     lintOnStart: false,
   },
+  
 })

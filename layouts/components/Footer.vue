@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { siteConfig } from '@/site.config'
+
 </script>
 
 <template>
@@ -12,5 +13,6 @@ import { siteConfig } from '@/site.config'
         2023-PRESENT © {{ siteConfig.author }}
       </span>
     </div>
+    
   </footer>
 </template>
