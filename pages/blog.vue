@@ -3,6 +3,11 @@ import { getIncludedYearPosts } from '@/utils'
 import { onMounted } from 'vue'
 const posts = await getIncludedYearPosts('blog')
 const route = useRoute()
+const { data: post } = await useAsyncData(
+  () => `/api/posts/${route.params.slug}`, // 假设你有这个 API
+  () => $fetch(`/api/posts/${route.params.slug}`)
+)
+
 onMounted(() => {
   if (!document.getElementById("busuanzi-script")) {
     const script = document.createElement("script");
@@ -12,19 +17,7 @@ onMounted(() => {
     document.body.appendChild(script);
   }
 });
-onMounted(async () => {
-  const namespace = 'your-blog'
-  const isDetailPage = route.path !== '/blog' && route.path.startsWith('/blog/')
 
-  if (isDetailPage) {
-    const key = encodeURIComponent(route.path)
-    try {
-      await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-    } catch (e) {
-      console.warn('计数请求失败：', e)
-    }
-  }
-})
 </script>
 <template>
   <sub-nav />

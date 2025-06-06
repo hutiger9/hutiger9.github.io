@@ -6,7 +6,7 @@ import { getIncludedYearPosts } from '@/utils'
 const posts = await getIncludedYearPosts('life')
 
 const route = useRoute()
-
+const { data: post } = await useFetch(`/api/posts/${route.params.slug}`)
 onMounted(async () => {
   const namespace = 'hutiger9.github.io'
   const key = encodeURIComponent(route.path)
