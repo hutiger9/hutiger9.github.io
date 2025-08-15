@@ -50,7 +50,8 @@ jobs:
 
       - name: install dependencies
         run: pnpm install
-
+      - name: downgrade nuxt
+        run: pnpm add -D nuxt@3.17.4
       - name: build
         run: |
           pnpm build
