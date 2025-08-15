@@ -19,7 +19,7 @@ en-title:
 
 这次的行程主要有 **乌鲁木齐 - 赛里木湖 - 果子沟大桥 - 霍城薰衣草 - 伊宁市 - 昭苏草原 - 夏塔古道 - 特克斯八卦城 - 喀拉峻草原 - 那拉提草原 - 乌鲁木齐**
 
-<!-- <div class="photo-slider">
+<div class="photo-slider">
   <img src="/images/IMG_6489.jpg" alt="飞往乌鲁木齐" />
   <img src="/images/IMG_6493.jpg" alt="独库公路（最后没走）" />
   <img src="/images/IMG_6530.jpg" alt="赛里木湖" />
@@ -29,7 +29,7 @@ en-title:
   <img src="/images/IMG_6635.jpg" alt="库尔德宁" />
   
   
-</div> -->
+</div>
 
 **行程安排：**
 
@@ -49,7 +49,7 @@ en-title:
 * 下午：前往夏塔古道，感受古丝绸之路的沧桑历史。
 * 住宿：凌山居
 
-<!-- <div class="photo-slider">
+<div class="photo-slider">
     <img src="/images/IMG_6557.jpg" alt="蓝海--赛里木湖" /> 
     <img src="/images/IMG_6573.jpg" alt="薰衣草花海" />
     <img src="/images/IMG_6604.jpg" alt="羊群" />
@@ -58,7 +58,7 @@ en-title:
     <img src="/images/IMG_6681.jpg" alt="花海" />
     <img src="/images/IMG_6763.jpg" alt="库尔德宁" />
     
-</div> -->
+</div>
 
 
 **第四天：夏塔古道 - 特克斯八卦城 - 喀拉峻草原 (约150公里，3小时)**

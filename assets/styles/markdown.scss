@@ -219,48 +219,48 @@
   }
 }
 
-// /* stylelint-disable all */
+/* stylelint-disable all */
 
-// /* 图片滑动容器 */
-// .photo-slider {
-//   display: grid;
-//   grid-auto-flow: column;
-//   grid-auto-columns: min(220px, 90vw); /* 宽度自适应屏幕，最大 220px */
-//   gap: 12px;
-//   padding: 10px 0;
-//   overflow-x: auto;
-//   scroll-snap-type: x mandatory;
-//   -webkit-overflow-scrolling: touch;
-//   overscroll-behavior-x: contain;
-// }
+/* 图片滑动容器 */
+.photo-slider {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(220px, 90vw); /* 宽度自适应屏幕，最大 220px */
+  gap: 12px;
+  padding: 10px 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
 
-// .photo-slider > img {
-//   width: 100%;
-//   height: 220px;
-//   object-fit: cover;
-//   border-radius: 10px;
-//   scroll-snap-align: start;
+.photo-slider > img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  scroll-snap-align: start;
 
-//   max-width: none;
-//   flex: 0 0 auto;
-//   display: block;
-// }
+  max-width: none;
+  flex: 0 0 auto;
+  display: block;
+}
 
-// .photo-slider::-webkit-scrollbar {
-//   height: 10px;
-// }
+.photo-slider::-webkit-scrollbar {
+  height: 10px;
+}
 
-// .photo-slider::-webkit-scrollbar-thumb {
-//   background-color: rgb(0 0 0 / 30%);
-//   border-radius: 6px;
-// }
-// /* 移动端优化：小屏幕图片高度自动缩放 */
-// @media (max-width: 480px) {
-//   .photo-slider > img {
-//     height: 160px;
-//     max-height: 160px;
-//   }
-// }
+.photo-slider::-webkit-scrollbar-thumb {
+  background-color: rgb(0 0 0 / 30%);
+  border-radius: 6px;
+}
+/* 移动端优化：小屏幕图片高度自动缩放 */
+@media (max-width: 480px) {
+  .photo-slider > img {
+    height: 160px;
+    max-height: 160px;
+  }
+}
 
 
-// /* stylelint-enable all */
+/* stylelint-enable all */
