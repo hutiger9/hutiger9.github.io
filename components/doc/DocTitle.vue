@@ -20,8 +20,9 @@ onMounted(() => {
         <span class="flex items-center">
           <i class="i-icon-park-outline-calendar m-r-0.5em" /> {{ formattedDate(props.article.date) }}
         </span>
-        <span v-if="views !== null" class="flex items-center">
-          <i class="i-icon-park-outline-eye m-r-0.3em" /> {{ views }} 阅读
+        <span class="flex items-center group cursor-pointer">
+          <i class="i-icon-park-outline-eye group-hover:hidden" />
+          <span v-if="views !== null" class="hidden group-hover:inline">{{ views }} 阅读</span>
         </span>
       </div>
       <div class="flex gap-2 m-t-0.5em">
