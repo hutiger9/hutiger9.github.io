@@ -4,6 +4,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 import { presetUno, presetIcons } from 'unocss'
 
 export default defineNuxtConfig({
+  ssr: true,
   modules: [
     '@unocss/nuxt',
     '@vueuse/nuxt',
@@ -51,7 +52,10 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    preset: 'static'
+    preset: 'static',
+    prerender: {
+      failOnError: false
+    }
   }, 
   content: {
     highlight: {
