@@ -34,7 +34,7 @@ export default defineNuxtConfig({
         { 'http-equiv': 'X-UA-Compatible', 'content': 'IE=edge' },
       ],
       noscript: [
-        { children: 'JavaScript is required' },
+        { innerHTML: 'JavaScript is required' },
       ],
       script: [
         {
