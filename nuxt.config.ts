@@ -8,7 +8,6 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@vueuse/nuxt',
     '@nuxt/content',
-    '@nuxtjs/stylelint-module',
   ],
   unocss: {
     presets: [
@@ -79,9 +78,4 @@ export default defineNuxtConfig({
     '@/assets/styles/transition.css',
     '@/assets/styles/markdown.scss',
   ],
-  stylelint: {
-    /* module options */
-    lintOnStart: false,
-  },
-  
 })
