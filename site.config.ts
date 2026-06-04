@@ -35,9 +35,9 @@ export const navLinks = [
     icon: 'i-icon-park-outline-tag-one',
   },
   {
-    title: 'Search',
+    title: 'Archive',
     path: '/search',
-    icon: 'i-icon-park-outline-search',
+    icon: 'i-icon-park-outline-time',
   },
   {
     title: 'links',
@@ -77,7 +77,24 @@ export const socialLinks = [
 
 export const projectList = [
   {
-    name: '',
+    name: 'Projects',
+    content: [
+      {
+        name: 'Personal Profile',
+        desc: '个人主页 / 名片展示',
+        path: 'https://www.hutiger.men/personal-profile',
+        icon: 'i-icon-park-outline-user',
+      },
+      {
+        name: 'Typing Game',
+        desc: '打字练习小游戏',
+        path: 'https://www.hutiger.men/typing-game',
+        icon: 'i-icon-park-outline-keyboard',
+      },
+    ],
+  },
+  {
+    name: 'Friends',
     content: [
       {
         name: 'niina cheng',
@@ -85,26 +102,6 @@ export const projectList = [
         avatar: 'https://blog.niina.fun/avatar.png',
         path: 'https://blog.niina.fun',
       },
-    //   {
-    //     name: 'Nova Admin',
-    //     desc: 'a complete admin template',
-    //     path: 'https://github.com/chansee97/nova-admin',
-    //   },
-    //   {
-    //     name: 'Nova Admin Nest',
-    //     desc: 'The nest backend for nova admin',
-    //     path: 'https://github.com/chansee97/nove-admin-nest',
-    //   },
     ],
   },
-  // {
-  //   name: 'friends',
-  //   content: [
-  //     // {
-  //     //   name: 'Virtuoso',
-  //     //   desc: 'My simply vue starter',
-  //     //   path: 'https://github.com/chansee97/virtuoso',
-  //     // },
-  //   ],
-  // },
 ]

@@ -105,28 +105,25 @@
   /* code */
   .code-wrap {
     position: relative;
-
-    .code-tools {
-      position: absolute;
-      top: 1.2em;
-      right: 1em;
-      opacity: 0;
-      transition: var(--common-transition);
-      transform: scale(0.8);
-    }
-
-    &:hover .code-tools {
-      opacity: 0.8;
-      transform: scale(1);
-    }
+    margin: 0.5em 0;
+    border-radius: var(--common-rd);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
   }
-  
+
+  .code-wrap pre {
+    margin: 0;
+    border-radius: 0 0 var(--common-rd) var(--common-rd);
+    border: none;
+  }
+
   pre {
     padding: 1.2em 1em;
     margin: 0.5em 0;
     overflow-x: auto;
     background-color: var(--common-bg);
     border-radius: var(--common-rd);
+    border: 1px solid var(--c-border);
 
     .line {
       display: block;

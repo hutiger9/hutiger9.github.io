@@ -1,20 +1,27 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { getIncludedYearPosts } from '@/utils'
 
-const posts = await getIncludedYearPosts('life')
+const allPosts = await getIncludedYearPosts('life')
 
-const route = useRoute()
-const { data: post } = await useFetch(`/api/posts/${route.params.slug}`)
-onMounted(async () => {
-  const namespace = 'hutiger9.github.io'
-  const key = encodeURIComponent(route.path)
-  await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-})
+// All content for global search
+const allDocs = await queryContent().sort({ date: -1 }).find()
+const searchablePosts = allDocs.filter((p: any) =>
+  p.title && p.date && !p._file?.match(/(readme|about|404)\.md$/i)
+)
+
+const displayedPosts = ref<any[]>(allPosts)
+
+function onFilter(filtered: any[]) {
+  if (filtered.length === searchablePosts.length) {
+    displayedPosts.value = allPosts
+  } else {
+    displayedPosts.value = filtered
+  }
+}
 </script>
 
 <template>
+  <SearchBar :posts="searchablePosts" @filter="onFilter" />
   <sub-nav />
-  <post-list :posts="posts" />
+  <post-list :posts="displayedPosts" />
 </template>

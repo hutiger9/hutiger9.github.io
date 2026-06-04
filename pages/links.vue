@@ -5,7 +5,7 @@ import { projectList } from '@/site.config'
 <template>
   <div class="prose">
     <h1 class="text-title mb-2em font-bold text-center">
-      Friends link
+      Links
     </h1>
   <div>
     <p>Welcome to my friendship links page! Here are some blogs and websites I frequently visit.</p>
@@ -28,7 +28,7 @@ import { projectList } from '@/site.config'
   </div>  
     
     <article v-for="(series, index) in projectList" :key="index" slide-enter :style="{ '--stagger': index + 1 }">
-      <div class="text-center mt-2em mb-1em text-gray-700:60" font-bold text-lg>
+      <div v-if="series.name" class="text-center mt-2em mb-1em text-gray-700:60 font-bold text-lg">
         {{ series.name }}
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-1em">
@@ -36,19 +36,23 @@ import { projectList } from '@/site.config'
           v-for="(project) in series.content" :key="project.path" :title="project.name" :href="project.path"
           target="_blank" class="flex items-center py-0.5em px-1em rounded-sm hover:bg-gray-400:10"
         >
-        <div class="hover w-full flex items-center">
-  <img :src="project.avatar" alt="project.name"
-    class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 transition-colors dark:hover:border-blue-600" />
-  
-        <div>
-          <div class="text-lg flex items-center">
-            {{ project.name }}
-            <span class="text-sm op-50 i-icon-park-outline-efferent-three ml-2" />
+          <div class="hover w-full flex items-center">
+            <!-- Avatar (friends) or Icon (projects) -->
+            <img v-if="'avatar' in project" :src="(project as any).avatar" :alt="project.name"
+              class="w-14 h-14 rounded-full object-cover mr-4 shrink-0 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 transition-colors dark:hover:border-blue-600" />
+            <div v-else class="w-14 h-14 rounded-full mr-4 shrink-0 flex items-center justify-center text-2xl"
+              :style="{ backgroundColor: 'var(--accent-soft)', color: 'var(--accent)' }"
+            >
+              <div :class="(project as any).icon" />
+            </div>
+            <div>
+              <div class="text-lg flex items-center">
+                {{ project.name }}
+                <span class="text-sm op-50 i-icon-park-outline-efferent-three ml-2" />
+              </div>
+              <div class="text-sm op-70">{{ project.desc }}</div>
+            </div>
           </div>
-          <div class="text-sm op-70">{{ project.desc }}</div>
-        </div>
-      </div>
-
         </a>
       </div>
     </article>

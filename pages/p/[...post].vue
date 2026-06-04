@@ -1,12 +1,34 @@
 <script setup lang="ts">
 import Giscus from '@giscus/vue'
+import { useScroll } from '@vueuse/core'
 
 const route = useRoute()
 const post = route.params.post as Array<string>
 const path = post.join('/')
+
+// SSR-safe scroll progress
+const scrollProgress = ref(0)
+if (import.meta.client) {
+  const { y } = useScroll(window)
+  watchEffect(() => {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight
+    if (docHeight > 0) {
+      scrollProgress.value = Math.min(100, Math.round((y.value / docHeight) * 100))
+    }
+  })
+}
 </script>
 
 <template>
+  <!-- Reading progress bar -->
+  <div
+    class="fixed top-0 left-0 h-0.5 z-50 transition-all duration-150"
+    :style="{
+      width: scrollProgress + '%',
+      backgroundImage: 'var(--accent-gradient)',
+    }"
+  />
+
   <section class="prose relative slide-enter-content">
     <ContentDoc :path="path">
       <template #default="{ doc }">

@@ -1,8 +1,10 @@
 import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts, transformerVariantGroup } from 'unocss'
-import { navLinks, socialLinks } from './site.config'
+import { navLinks, socialLinks, projectList } from './site.config'
 
 const compoundLinks = [...navLinks, ...socialLinks]
 const safeNavIcon = compoundLinks.map(link => link.icon)
+// Extract project icons for safelist
+const projectIcons = projectList.flatMap(s => s.content).map(p => (p as any).icon).filter(Boolean)
 
 export default defineConfig({
   // ...UnoCSS options
@@ -47,7 +49,7 @@ export default defineConfig({
       },
     }),
   ],
-  safelist: [...safeNavIcon],
+  safelist: [...safeNavIcon, ...projectIcons],
   transformers: [
     transformerVariantGroup(),
   ],

@@ -4,20 +4,38 @@
   --common-rd: 0.5em;
   --common-bg: #69a79429;
   --common-bd:#c9c7c2;
+  --common-rd-lg: 0.75em;
+
+  /* accent brand colors */
+  --accent: #69a794;
+  --accent-soft: #69a79418;
+  --accent-muted: #69a79460;
+  --accent-gradient: linear-gradient(135deg, #69a794, #4a9eff75);
 }
 
 html {
   --primary: #0d0d0d;
   --c-bg: #fafafa;
+  --c-bg-card: #ffffff;
+  --c-bg-card-hover: #f5f5f5;
   --c-scrollbar: #ccc;
   --c-scrollbar-hover: #aaa;
   --input-bg:#fff;
+  --c-border: #e5e5e5;
 }
 
 html.dark {
+  --accent: #7ec8b0;
+  --accent-soft: #7ec8b018;
+  --accent-muted: #7ec8b060;
+  --accent-gradient: linear-gradient(135deg, #7ec8b0, #6aaff0);
+
   --primary: #ebebeb;
   --c-bg: #141414;
+  --c-bg-card: #1a1a1a;
+  --c-bg-card-hover: #222222;
   --c-scrollbar: #555;
   --c-scrollbar-hover: #777;
-   --input-bg:#222;
+  --input-bg:#222;
+  --c-border: #2a2a2a;
 }
