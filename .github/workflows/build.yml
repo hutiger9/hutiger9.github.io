@@ -49,9 +49,7 @@ jobs:
             ${{ runner.os }}-modules-
 
       - name: install dependencies
-        run: pnpm install
-      - name: downgrade nuxt
-        run: pnpm add -D nuxt@3.17.4
+        run: pnpm install --frozen-lockfile
       - name: build
         run: |
           pnpm generate

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+
 const { data: stats } = await useAsyncData('home-stats', async () => {
   const allPosts = await queryContent().sort({ date: -1 }).find()
   const posts = allPosts.filter(i => i.title && i.date && !i._file?.match(/(readme|about|404)\.md$/i))
@@ -41,6 +43,21 @@ onMounted(() => {
 })
 
 onUnmounted(() => clearTimeout(timeoutId))
+
+// Waline comment system (client-side only)
+if (import.meta.client) {
+  onMounted(async () => {
+    await import('@waline/client/style')
+    const { init } = await import('@waline/client')
+    init({
+      el: '#waline',
+      serverURL: 'https://comments.hutiger.men',
+      lang: 'zh-CN',
+      emoji: true,
+      noCopyright: true,
+    })
+  })
+}
 </script>
 
 <template>
@@ -117,5 +134,17 @@ onUnmounted(() => clearTimeout(timeoutId))
     <section class="prose">
       <ContentDoc path="me" />
     </section>
+
+    <!-- Waline 评论系统 -->
+    <div class="comment-section">
+      <div class="comment-divider">
+        <span class="comment-divider-line" />
+        <span class="comment-divider-text">💬 评论区</span>
+        <span class="comment-divider-line" />
+      </div>
+      <div class="comment-card">
+        <div id="waline" />
+      </div>
+    </div>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { formattedDate } from '@/utils'
+import { onMounted } from 'vue'
 
 interface ArchiveItem {
   year: number
@@ -36,6 +37,21 @@ const archive = computed<ArchiveItem[]>(() => {
     .sort(([a], [b]) => Number(b) - Number(a))
     .map(([year, posts]) => ({ year: Number(year), posts }))
 })
+
+// Waline comment system (client-side only)
+if (import.meta.client) {
+  onMounted(async () => {
+    await import('@waline/client/style')
+    const { init } = await import('@waline/client')
+    init({
+      el: '#waline',
+      serverURL: 'https://comments.hutiger.men',
+      lang: 'zh-CN',
+      emoji: true,
+      noCopyright: true,
+    })
+  })
+}
 </script>
 
 <template>
@@ -94,6 +110,18 @@ const archive = computed<ArchiveItem[]>(() => {
     <div v-if="archive.length === 0" class="text-center py-16 op-40">
       <div class="text-4xl mb-4">📂</div>
       <p>No posts yet</p>
+    </div>
+
+    <!-- Waline 评论系统 -->
+    <div class="comment-section">
+      <div class="comment-divider">
+        <span class="comment-divider-line" />
+        <span class="comment-divider-text">💬 评论区</span>
+        <span class="comment-divider-line" />
+      </div>
+      <div class="comment-card">
+        <div id="waline" />
+      </div>
     </div>
   </div>
 </template>
