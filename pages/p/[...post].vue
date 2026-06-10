@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useScroll } from '@vueuse/core'
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, watch } from 'vue'
 import { queryContent } from '#imports'
 
 const route = useRoute()
@@ -119,22 +119,23 @@ function switchLang(lang: string) {
 
 // Auto-detect browser language & switch to matching version (client-side only)
 if (import.meta.client) {
-  onMounted(async () => {
-    // Wait for versions to load first, then detect
-    await nextTick()
-    if (availableLangs.value.length <= 1) return
+  // Wait for versions to load, then detect language
+  const stopWatch = watch(availableLangs, (langs) => {
+    if (langs.length <= 1) return
 
     const saved = localStorage.getItem('blog-lang')
-    const target = saved && availableLangs.value.includes(saved)
+    const browserLang = navigator.language?.split('-')[0] || ''
+    const target = saved && langs.includes(saved)
       ? saved
-      : !['zh', 'zh-CN'].includes(navigator.language) && availableLangs.value.includes(navigator.language?.split('-')[0])
-        ? navigator.language?.split('-')[0]
+      : browserLang !== 'zh' && langs.includes(browserLang)
+        ? browserLang
         : null
 
     if (target) {
       activeLang.value = target
       localStorage.setItem('blog-lang', target)
     }
+    stopWatch() // Run only once
   })
 }
 

@@ -6,7 +6,7 @@ title: Northern Xinjiang Road Trip
 lang: en
 translation: true
 versions:
-  zh: life/xinjiangvlog/zh
+  zh: life/xinjiangvlog
   en: life/xinjiangvlog/en
 ---
 
