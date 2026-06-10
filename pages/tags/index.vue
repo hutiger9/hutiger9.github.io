@@ -5,6 +5,7 @@ const contentQuery = await queryContent().find()
 
 const tagsContent = contentQuery
   .filter(i => i.tags) // 过滤无tags的选项
+  .filter(i => !i.translation)
   .filter((i) => {
     const regex = /(readme|about)\.md$/i // 匹配 /readme.md 或 /about.md
     return !regex.test(i._file!) // 如果不匹配，则保留该项
@@ -13,7 +14,6 @@ const tagsContent = contentQuery
     for (const tag of post.tags) {
       if (counts[tag])
         counts[tag]++
-
       else
         counts[tag] = 1
     }

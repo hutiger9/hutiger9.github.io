@@ -28,12 +28,7 @@ export const navLinks = [
     path: '/blog',
     icon: 'i-icon-park-outline-align-text-right-one',
   },
- 
-  {
-    title: 'Tags',
-    path: '/tags',
-    icon: 'i-icon-park-outline-tag-one',
-  },
+
   {
     title: 'Archive',
     path: '/search',
@@ -72,6 +67,11 @@ export const socialLinks = [
     title: 'Github',
     path: 'https://github.com/hutiger9',
     icon: 'i-icon-park-outline-github',
+  },
+  {
+    title: 'RSS',
+    path: '/rss.xml',
+    icon: 'i-icon-park-outline-rss',
   },
 ]
 

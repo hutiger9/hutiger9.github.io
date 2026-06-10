@@ -46,6 +46,9 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: siteConfig.lang,
       },
+      link: [
+        { rel: 'alternate', type: 'application/rss+xml', title: "Hutiger's Blog", href: '/rss.xml' },
+      ],
       bodyAttrs: {
         class: 'font-sans',
       },
@@ -54,9 +57,10 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'static',
     prerender: {
-      failOnError: false
-    }
-  }, 
+      failOnError: false,
+      routes: ['/rss.xml'],
+    },
+  },
   content: {
     highlight: {
       theme: {
@@ -71,8 +75,24 @@ export default defineNuxtConfig({
         'c',
         'cpp',
         'java',
+        'python',
+        'scss',
+        'toml',
+        'bash',
+        'json',
+        'yaml',
       ],
-
+    },
+  },
+  mdc: {
+    highlight: {
+      langs: [
+        'js', 'jsx', 'ts', 'tsx', 'vue',
+        'css', 'scss', 'html',
+        'bash', 'md', 'mdc', 'yaml', 'json',
+        'python', 'toml',
+        'c', 'cpp', 'java',
+      ],
     },
   },
   css: [

@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 
 const { data: stats } = await useAsyncData('home-stats', async () => {
   const allPosts = await queryContent().sort({ date: -1 }).find()
-  const posts = allPosts.filter(i => i.title && i.date && !i._file?.match(/(readme|about|404)\.md$/i))
+  const posts = allPosts.filter(i => i.title && i.date && !i.translation && !i._file?.match(/(readme|about|404)\.md$/i))
   const tags = new Set<string>()
   posts.forEach(p => p.tags?.forEach((t: string) => tags.add(t)))
   return { postCount: posts.length, tagCount: tags.size }

@@ -8,7 +8,7 @@ queryResult.value = await queryContent()
     tags: {
       $contains: tag,
     },
-
+    translation: { $ne: true },
   })
   .find()
 </script>

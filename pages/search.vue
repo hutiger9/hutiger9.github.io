@@ -18,7 +18,7 @@ const allContent = await queryContent()
 
 const archive = computed<ArchiveItem[]>(() => {
   const posts = allContent
-    .filter((p: any) => p.title && p.date && !p._file?.match(/(readme|about|404)\.md$/i))
+    .filter((p: any) => p.title && p.date && !p.translation && !p._file?.match(/(readme|about|404)\.md$/i))
     .map((p: any) => ({
       _path: p._path,
       title: p.title,

@@ -6,7 +6,7 @@ const allPosts = await getIncludedYearPosts('life')
 // All content for global search
 const allDocs = await queryContent().sort({ date: -1 }).find()
 const searchablePosts = allDocs.filter((p: any) =>
-  p.title && p.date && !p._file?.match(/(readme|about|404)\.md$/i)
+  p.title && p.date && !p.translation && !p._file?.match(/(readme|about|404)\.md$/i)
 )
 
 const displayedPosts = ref<any[]>(allPosts)

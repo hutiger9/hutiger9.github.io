@@ -39,11 +39,11 @@ function backTop() {
     </div>
   </div>
 
-  <!-- Mobile FAB -->
+  <!-- Mobile FAB: only back button (to-top replaced by reading progress circle) -->
   <Transition name="fab">
     <div
       v-if="showFAB"
-      class="fixed bottom-6 right-6 z-40 flex flex-col gap-2 xl:hidden"
+      class="fixed bottom-20 right-6 z-30 xl:hidden"
     >
       <button
         class="w-11 h-11 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-110"
@@ -52,14 +52,6 @@ function backTop() {
         @click="goBack"
       >
         <i class="i-icon-park-outline-left-small-up text-lg" />
-      </button>
-      <button
-        class="w-11 h-11 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-110"
-        :style="{ backgroundColor: 'var(--accent)', color: '#fff', border: 'none' }"
-        title="Back to top"
-        @click="backTop"
-      >
-        <i class="i-icon-park-outline-to-top-one text-lg" />
       </button>
     </div>
   </Transition>

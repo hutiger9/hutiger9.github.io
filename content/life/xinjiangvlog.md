@@ -4,7 +4,10 @@ url:
 tags: 
   - 旅游
 title: 北疆之行
-en-title:
+lang: zh-CN
+versions:
+  zh: life/xinjiangvlog
+  en: life/xinjiangvlog.en
 ---
 
 
