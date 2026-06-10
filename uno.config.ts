@@ -32,10 +32,10 @@ export default defineConfig({
       dark: 'class',
     }),
     presetWebFonts({
-      provider: 'google',
+      provider: 'none',
       fonts: {
         sans: ['Inter', 'Noto Sans Simplified Chinese'],
-        mono: ['Fira Mono:400,700'],
+        mono: ['Fira Mono', 'Source Code Pro', 'ui-monospace', 'monospace'],
         hand: ['Dancing Script'],
       },
     }),

@@ -268,9 +268,10 @@ if (import.meta.client) {
       </template>
 
       <template #not-found>
-        <h1 class="text-center">
-          Not Found Any Document😗
-        </h1>
+        <div class="text-center py-16">
+          <div class="inline-block w-8 h-8 border-2 border-current border-t-transparent rounded-full animate-spin op-40 mb-4" />
+          <p class="op-40">加载中...</p>
+        </div>
       </template>
     </ContentDoc>
   </section>
