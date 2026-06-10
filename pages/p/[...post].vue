@@ -104,16 +104,30 @@ const { data: defaultDoc } = useAsyncData(`meta:${basePath}`, () =>
 const versions = computed<Record<string, string> | null>(() => defaultDoc.value?.versions ?? null)
 const availableLangs = computed<string[]>(() => versions.value ? Object.keys(versions.value) : [])
 
-const activeLang = ref('zh')
+// Detect current language from URL path: /p/life/xinjiangvlog/en → 'en'
+const urlLang = computed(() => {
+  const parts = post
+  if (parts.length < 2) return null
+  // Check if the last path segment looks like a language code (2 letters)
+  const last = parts[parts.length - 1]
+  return /^[a-z]{2}$/.test(last) ? last : null
+})
+
+const activeLang = ref(urlLang.value || 'zh')
 const contentPath = computed(() => {
   if (!versions.value) return basePath
-  return versions.value[activeLang.value] || basePath
+  const mapped = versions.value[activeLang.value]
+  if (mapped) return mapped
+  // If current URL is a language variant but not in versions, stay on it
+  if (urlLang.value && !versions.value[urlLang.value]) return basePath
+  return basePath
 })
 
 function switchLang(lang: string) {
-  activeLang.value = lang
-  if (import.meta.client) {
+  const path = versions.value?.[lang]
+  if (path) {
     localStorage.setItem('blog-lang', lang)
+    navigateTo(`/p/${path}`, { replace: true })
   }
 }
 
@@ -201,15 +215,16 @@ if (import.meta.client) {
           <div class="flex gap-1 p-1 rounded-lg"
             :style="{ backgroundColor: 'var(--c-bg-card)', border: '1px solid var(--c-border)' }"
           >
-            <button
+            <NuxtLink
               v-for="lang in availableLangs"
               :key="lang"
+              :to="`/p/${versions?.[lang] || basePath}`"
               class="lang-btn"
               :class="{ active: activeLang === lang }"
-              @click="switchLang(lang)"
+              @click="localStorage?.setItem('blog-lang', lang)"
             >
               {{ LANG_LABELS[lang] || lang.toUpperCase() }}
-            </button>
+            </NuxtLink>
           </div>
         </div>
         <doc-render v-if="doc" :article="doc" />

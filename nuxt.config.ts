@@ -57,6 +57,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'static',
     prerender: {
+      crawlLinks: true,
       failOnError: false,
       routes: ['/rss.xml'],
     },
