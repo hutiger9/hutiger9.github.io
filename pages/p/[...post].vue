@@ -96,8 +96,8 @@ const LANG_LABELS: Record<string, string> = {
   pt: 'PT',
 }
 
-// Detect available versions from the default (zh) doc's frontmatter
-const { data: defaultDoc } = await useAsyncData(`meta:${basePath}`, () =>
+// Non-blocking: load versions metadata in background, don't block render
+const { data: defaultDoc } = useAsyncData(`meta:${basePath}`, () =>
   queryContent(basePath).only(['versions', 'lang']).findOne()
 )
 
@@ -119,16 +119,21 @@ function switchLang(lang: string) {
 
 // Auto-detect browser language & switch to matching version (client-side only)
 if (import.meta.client) {
-  onMounted(() => {
+  onMounted(async () => {
+    // Wait for versions to load first, then detect
+    await nextTick()
+    if (availableLangs.value.length <= 1) return
+
     const saved = localStorage.getItem('blog-lang')
-    if (saved && availableLangs.value.includes(saved)) {
-      activeLang.value = saved
-    } else if (availableLangs.value.length > 1) {
-      const browserLang = navigator.language?.split('-')[0] || ''
-      if (browserLang !== 'zh' && availableLangs.value.includes(browserLang)) {
-        activeLang.value = browserLang
-        localStorage.setItem('blog-lang', browserLang)
-      }
+    const target = saved && availableLangs.value.includes(saved)
+      ? saved
+      : !['zh', 'zh-CN'].includes(navigator.language) && availableLangs.value.includes(navigator.language?.split('-')[0])
+        ? navigator.language?.split('-')[0]
+        : null
+
+    if (target) {
+      activeLang.value = target
+      localStorage.setItem('blog-lang', target)
     }
   })
 }

@@ -6,8 +6,8 @@ title: Northern Xinjiang Road Trip
 lang: en
 translation: true
 versions:
-  zh: life/xinjiangvlog
-  en: life/xinjiangvlog.en
+  zh: life/xinjiangvlog/zh
+  en: life/xinjiangvlog/en
 ---
 
 # Xinjiang Journey — Northern Loop

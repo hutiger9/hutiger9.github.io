@@ -6,8 +6,8 @@ tags:
 title: 北疆之行
 lang: zh-CN
 versions:
-  zh: life/xinjiangvlog
-  en: life/xinjiangvlog.en
+  zh: life/xinjiangvlog/zh
+  en: life/xinjiangvlog/en
 ---
 
 
