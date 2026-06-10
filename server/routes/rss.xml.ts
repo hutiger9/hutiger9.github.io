@@ -10,25 +10,21 @@ function escapeXml(str: string): string {
     .replace(/'/g, '&apos;')
 }
 
-/** Extract plain text from Nuxt Content AST body */
-function extractText(node: any): string {
-  if (!node) return ''
-  if (typeof node === 'string') return node
-  if (node.type === 'text' || node.type === 'inlineCode') return node.value || ''
-  if (node.children) return node.children.map(extractText).join(' ')
-  return ''
-}
-
-/** Convert Nuxt Content AST body to simple HTML for RSS */
+/** Convert Nuxt Content AST body to simple HTML for RSS (skip shiki styles) */
 function bodyToHtml(node: any): string {
   if (!node) return ''
   if (typeof node === 'string') return escapeXml(node)
   if (node.type === 'text') return escapeXml(node.value || '')
   if (node.type === 'inlineCode') return `<code>${escapeXml(node.value || '')}</code>`
-  if (node.type === 'code') {
-    const lang = node.lang ? ` class="language-${escapeXml(node.lang)}"` : ''
-    return `<pre><code${lang}>${escapeXml(node.value || '')}</code></pre>`
+
+  // Shiki-processed code blocks: extract plain text, skip all style/spans
+  if (node.tag === 'pre') {
+    const plainText = extractPlainText(node)
+    return `<pre><code>${escapeXml(plainText)}</code></pre>`
   }
+
+  // Skip style tags (shiki injects them)
+  if (node.tag === 'style' || node.tag === 'span') return ''
 
   const children = (node.children || []).map(bodyToHtml).join('')
 
@@ -50,6 +46,15 @@ function bodyToHtml(node: any): string {
   }
 }
 
+/** Extract plain text from a node tree (skip all markup) */
+function extractPlainText(node: any): string {
+  if (!node) return ''
+  if (typeof node === 'string') return node
+  if (node.type === 'text' || node.type === 'inlineCode') return node.value || ''
+  if (node.children) return node.children.map(extractPlainText).join('')
+  return ''
+}
+
 function buildRssXml(
   docs: {
     title?: string
@@ -69,12 +74,14 @@ function buildRssXml(
     const link = `${siteUrl}/p${doc._path}`
     const pubDate = doc.date ? new Date(doc.date).toUTCString() : now
 
-    // Full article HTML from body, fallback to description
+    // Full article HTML from body (CDATA), fallback to plain-text description
     let contentHtml = ''
     if (doc.body?.children) {
       contentHtml = doc.body.children.map(bodyToHtml).join('\n')
     }
-    const description = escapeXml(contentHtml || doc.description || title)
+    const description = contentHtml
+      ? `<![CDATA[${contentHtml}]]>`
+      : escapeXml(doc.description || title)
 
     const tags = doc.tags?.map(t => `      <category>${escapeXml(t)}</category>`).join('\n') || ''
 
