@@ -1,6 +1,35 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref, computed, watch, nextTick } from 'vue'
+import { queryContent } from '#imports'
 
+// ── Multi-language for About section ──
+const LANG_LABELS: Record<string, string> = {
+  zh: '中文',
+  en: 'EN',
+}
+const { data: aboutMeta } = await useAsyncData('about-meta', () =>
+  queryContent('me').only(['versions']).findOne()
+)
+const versions = computed(() => (aboutMeta.value as any)?.versions ?? null)
+const availableLangs = computed<string[]>(() => versions.value ? Object.keys(versions.value) : [])
+
+const savedLang = import.meta.client ? localStorage.getItem('blog-lang') : null
+const browserLang = import.meta.client ? (navigator.language?.split('-')[0] || '') : ''
+const activeAboutLang = ref<string>(
+  savedLang && availableLangs.value.includes(savedLang)
+    ? savedLang
+    : browserLang !== 'zh' && availableLangs.value.includes(browserLang)
+      ? browserLang
+      : 'zh'
+)
+const aboutPath = computed(() => versions.value?.[activeAboutLang.value] || 'me')
+
+function switchAboutLang(lang: string) {
+  activeAboutLang.value = lang
+  if (import.meta.client) localStorage.setItem('blog-lang', lang)
+}
+
+// ── Stats ──
 const { data: stats } = await useAsyncData('home-stats', async () => {
   const allPosts = await queryContent().sort({ date: -1 }).find()
   const posts = allPosts.filter(i => i.title && i.date && !i.translation && !i._file?.match(/(readme|about|404)\.md$/i))
@@ -58,6 +87,36 @@ if (import.meta.client) {
     })
   })
 }
+
+// ── Image Lightbox for About content ──
+const lightboxIndex = ref<number | null>(null)
+const aboutImages = ref<string[]>([])
+
+function setupAboutLightbox() {
+  nextTick(() => {
+    const imgs = document.querySelectorAll('.prose img:not(.no-lightbox)')
+    const srcs: string[] = []
+    imgs.forEach((img, i) => {
+      const src = (img as HTMLImageElement).getAttribute('src') || ''
+      srcs.push(src)
+      img.classList.add('cursor-pointer', 'transition-opacity', 'hover:op-80')
+      img.addEventListener('click', () => {
+        lightboxIndex.value = i
+      })
+    })
+    aboutImages.value = srcs
+  })
+}
+
+watch(aboutPath, () => {
+  if (import.meta.client) nextTick(setupAboutLightbox)
+})
+
+if (import.meta.client) {
+  onMounted(() => {
+    setTimeout(setupAboutLightbox, 200)
+  })
+}
 </script>
 
 <template>
@@ -93,11 +152,11 @@ if (import.meta.client) {
 
       <!-- Stats -->
       <div class="flex gap-6 mt-8">
-        <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent-soft)]">
+        <div class="flex items-center gap-2">
           <span class="text-xl font-bold" style="color:var(--accent)">{{ stats?.postCount || 0 }}</span>
           <span class="text-sm op-60">Articles</span>
         </div>
-        <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent-soft)]">
+        <div class="flex items-center gap-2">
           <span class="text-xl font-bold" style="color:var(--accent)">{{ stats?.tagCount || 0 }}</span>
           <span class="text-sm op-60">Tags</span>
         </div>
@@ -107,32 +166,39 @@ if (import.meta.client) {
       <div class="flex flex-wrap gap-3 mt-8">
         <NuxtLink
           to="/blog"
-          class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all duration-300"
-          style="background-color:var(--accent);color:#fff"
+          class="inline-flex items-center gap-1 font-medium transition-all duration-300 hover:op-70"
+          style="color:var(--accent)"
         >
           Read Blog
           <i class="i-icon-park-outline-right-small" />
-        </NuxtLink>
-        <NuxtLink
-          to="/links"
-          class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all duration-300"
-          :style="{ border: '1px solid var(--c-border)', color: 'var(--primary)' }"
-        >
-          About Me
         </NuxtLink>
       </div>
     </section>
 
     <!-- Divider -->
-    <div class="flex items-center gap-4 mb-10 op-30">
+    <div class="flex items-center gap-4 mb-6 op-30">
       <div class="h-px flex-1" style="background-color:var(--c-border)" />
       <span class="text-sm">About</span>
       <div class="h-px flex-1" style="background-color:var(--c-border)" />
     </div>
 
+    <!-- Language switcher for About -->
+    <div v-if="availableLangs.length > 1" class="flex justify-end mb-4 lang-switcher">
+      <template v-for="(lang, idx) in availableLangs" :key="lang">
+        <span v-if="idx > 0" class="lang-sep">/</span>
+        <a
+          class="lang-link"
+          :class="{ active: activeAboutLang === lang }"
+          @click="switchAboutLang(lang)"
+        >
+          {{ LANG_LABELS[lang] || lang.toUpperCase() }}
+        </a>
+      </template>
+    </div>
+
     <!-- Original About Content -->
     <section class="prose">
-      <ContentDoc path="me" />
+      <ContentDoc :path="aboutPath" />
     </section>
 
     <!-- Waline 评论系统 -->
@@ -146,5 +212,35 @@ if (import.meta.client) {
         <div id="waline" />
       </div>
     </div>
+
+    <ImageLightbox :images="aboutImages" v-model="lightboxIndex" />
   </div>
 </template>
+
+<style scoped>
+.lang-switcher {
+  align-items: center;
+  gap: 0;
+  font-size: 0.85rem;
+}
+.lang-sep {
+  margin: 0 6px;
+  color: var(--c-text-light, #999);
+  opacity: 0.8;
+}
+.lang-link {
+  color: var(--c-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+.lang-link:hover {
+  color: var(--accent);
+}
+.lang-link.active {
+  color: var(--c-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+</style>

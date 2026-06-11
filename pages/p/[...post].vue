@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useScroll } from '@vueuse/core'
-import { onMounted, computed, ref, watch } from 'vue'
+import { onMounted, computed, ref, watch, nextTick } from 'vue'
 import { queryContent } from '#imports'
 
 const route = useRoute()
@@ -114,6 +114,7 @@ const urlLang = computed(() => {
 })
 
 const activeLang = ref(urlLang.value || 'zh')
+
 const contentPath = computed(() => {
   if (!versions.value) return basePath
   const mapped = versions.value[activeLang.value]
@@ -167,6 +168,38 @@ if (import.meta.client) {
     })
   })
 }
+
+// ── Image Lightbox ──
+const lightboxIndex = ref<number | null>(null)
+const articleImages = ref<string[]>([])
+
+function setupImageLightbox() {
+  nextTick(() => {
+    const imgs = document.querySelectorAll('.prose img:not(.no-lightbox)')
+    const srcs: string[] = []
+    imgs.forEach((img, i) => {
+      const src = (img as HTMLImageElement).getAttribute('src') || ''
+      srcs.push(src)
+      img.classList.add('cursor-pointer', 'transition-opacity', 'hover:op-80')
+      img.addEventListener('click', () => {
+        lightboxIndex.value = i
+      })
+    })
+    articleImages.value = srcs
+  })
+}
+
+// Re-run when language/content changes
+watch(contentPath, () => {
+  nextTick(setupImageLightbox)
+})
+
+// Run on mount after content renders
+if (import.meta.client) {
+  onMounted(() => {
+    setTimeout(setupImageLightbox, 100)
+  })
+}
 </script>
 
 <template>
@@ -211,21 +244,18 @@ if (import.meta.client) {
       <template #default="{ doc }">
         <doc-back />
         <!-- Language switcher -->
-        <div v-if="availableLangs.length > 1" class="flex justify-end mb-4">
-          <div class="flex gap-1 p-1 rounded-lg"
-            :style="{ backgroundColor: 'var(--c-bg-card)', border: '1px solid var(--c-border)' }"
-          >
+        <div v-if="availableLangs.length > 1" class="flex justify-end mb-4 lang-switcher">
+          <template v-for="(lang, idx) in availableLangs" :key="lang">
+            <span v-if="idx > 0" class="lang-sep">/</span>
             <NuxtLink
-              v-for="lang in availableLangs"
-              :key="lang"
               :to="`/p/${versions?.[lang] || basePath}`"
-              class="lang-btn"
+              class="lang-link"
               :class="{ active: activeLang === lang }"
               @click="localStorage?.setItem('blog-lang', lang)"
             >
               {{ LANG_LABELS[lang] || lang.toUpperCase() }}
             </NuxtLink>
-          </div>
+          </template>
         </div>
         <doc-render v-if="doc" :article="doc" />
         <doc-toc v-if="doc && doc.body" :toc="doc.body.toc" />
@@ -295,32 +325,39 @@ if (import.meta.client) {
         </div>
       </template>
     </ContentDoc>
+
+    <ImageLightbox :images="articleImages" v-model="lightboxIndex" />
   </section>
 </template>
 
 <style scoped>
-.lang-btn {
-  padding: 4px 12px;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  color: var(--c-text, #666);
-  background: transparent;
-  transition: all 0.2s ease;
-  text-align: center;
+.lang-switcher {
+  align-items: center;
+  gap: 0;
+  font-size: 0.85rem;
 }
 
-.lang-btn:hover {
-  color: var(--accent);
-  background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+.lang-sep {
+  margin: 0 6px;
+  color: var(--c-text-light, #999);
+  opacity: 0.8;
 }
 
-.lang-btn.active {
+.lang-link {
+  color: var(--c-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.lang-link:hover {
   color: var(--accent);
-  background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.lang-link.active {
+  color: var(--c-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ── Share Section ── */

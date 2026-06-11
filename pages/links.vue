@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { projectList } from '@/site.config'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
+
+const lang = ref<'zh' | 'en'>(
+  import.meta.client && localStorage.getItem('blog-lang') === 'en' ? 'en' : 'zh'
+)
+
+function switchLang(l: 'zh' | 'en') {
+  lang.value = l
+  if (import.meta.client) localStorage.setItem('blog-lang', l)
+}
 
 // Waline comment system (client-side only)
 if (import.meta.client) {
@@ -20,28 +29,56 @@ if (import.meta.client) {
 
 <template>
   <div class="prose">
+    <div class="flex justify-end mb-4 lang-switcher">
+      <span
+        class="lang-link"
+        :class="{ active: lang === 'zh' }"
+        @click="switchLang('zh')"
+      >中文</span>
+      <span class="lang-sep">/</span>
+      <span
+        class="lang-link"
+        :class="{ active: lang === 'en' }"
+        @click="switchLang('en')"
+      >EN</span>
+    </div>
+
     <h1 class="text-title mb-2em font-bold text-center">
       Links
     </h1>
-  <div>
-    <p>Welcome to my friendship links page! Here are some blogs and websites I frequently visit.</p>
 
-    <h2>Add a Link</h2>
-
-    <p>If you'd like to add your link, please follow these steps:</p>
-
-    <ul>
-      <li>Make sure your website has already added my link</li>
-      <li>Contact me via email and provide the following information:
-        <ul>
-          <li>Blog Name</li>
-          <li>Blog URL</li>
-          <li>Avatar URL</li>
-          <li>Short Description (optional)</li>
-        </ul>
-      </li>
-    </ul>
-  </div>  
+    <div v-if="lang === 'zh'">
+      <p>欢迎来到我的友链页面！这里是一些我常访问的博客和网站。</p>
+      <h2>添加友链</h2>
+      <p>如果你想添加友链，请按以下步骤操作：</p>
+      <ul>
+        <li>确保你的网站已经添加了我的链接</li>
+        <li>通过邮件联系我，并提供以下信息：
+          <ul>
+            <li>博客名称</li>
+            <li>博客网址</li>
+            <li>头像链接</li>
+            <li>简短描述（可选）</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      <p>Welcome to my friendship links page! Here are some blogs and websites I frequently visit.</p>
+      <h2>Add a Link</h2>
+      <p>If you'd like to add your link, please follow these steps:</p>
+      <ul>
+        <li>Make sure your website has already added my link</li>
+        <li>Contact me via email and provide the following information:
+          <ul>
+            <li>Blog Name</li>
+            <li>Blog URL</li>
+            <li>Avatar URL</li>
+            <li>Short Description (optional)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
     
     <article v-for="(series, index) in projectList" :key="index" slide-enter :style="{ '--stagger': index + 1 }">
       <div v-if="series.name" class="text-center mt-2em mb-1em text-gray-700:60 font-bold text-lg">
@@ -86,3 +123,31 @@ if (import.meta.client) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.lang-switcher {
+  align-items: center;
+  gap: 0;
+  font-size: 0.85rem;
+}
+.lang-sep {
+  margin: 0 6px;
+  color: var(--c-text-light, #999);
+  opacity: 0.8;
+}
+.lang-link {
+  color: var(--c-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+.lang-link:hover {
+  color: var(--accent);
+}
+.lang-link.active {
+  color: var(--c-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+</style>

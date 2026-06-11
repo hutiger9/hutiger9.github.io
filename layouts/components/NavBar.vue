@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { navLinks } from '@/site.config'
+import { navLinks, socialLinks } from '@/site.config'
 
 const route = useRoute()
 </script>
@@ -21,6 +21,26 @@ const route = useRoute()
         style="background-color:var(--accent)"
       />
     </NuxtLink>
-    <DarkMode class="m-l-auto" />
+
+    <!-- Right side: photo wall + social icons + dark mode -->
+    <div class="m-l-auto flex items-center gap-3">
+      <NuxtLink
+        to="/photos"
+        title="Photos"
+        class="op-40 hover:op-70 transition-opacity text-base"
+        :class="route.path === '/photos' ? 'op-80' : ''"
+      >
+        <div class="i-icon-park-outline-picture-album" />
+      </NuxtLink>
+      <a
+        v-for="link in socialLinks" :key="link.title"
+        :title="link.title" :href="link.path"
+        class="op-40 hover:op-70 transition-opacity text-base" target="_blank"
+      >
+        <div :class="link.icon" />
+      </a>
+      <span class="w-px h-4 op-20" style="background-color:var(--c-text)" />
+      <DarkMode />
+    </div>
   </nav>
 </template>
