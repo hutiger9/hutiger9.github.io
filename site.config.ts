@@ -82,13 +82,13 @@ export const projectList = [
       {
         name: 'Personal Profile',
         desc: '个人主页 / 名片展示',
-        path: 'https://www.hutiger.men/personal-profile',
+        path: 'https://blog.hutiger.men/personal-profile/',
         icon: 'i-icon-park-outline-user',
       },
       {
         name: 'Typing Game',
         desc: '打字练习小游戏',
-        path: 'https://www.hutiger.men/typing-game',
+        path: 'https://blog.hutiger.men/typing-game/',
         icon: 'i-icon-park-outline-keyboard',
       },
     ],
