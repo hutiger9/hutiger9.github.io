@@ -91,7 +91,7 @@ en-title: Initial Travel to Japan
   <img src="/images/IMG_8070.jpg" alt="前往市区的路上" />
   <img src="/images/IMG_8075.jpg" alt="第一晚酒店" />
   <img src="/images/IMG_8072.jpg" alt="通天阁" />
-  
+
 </div>
 
 ## 心斋桥与道顿堀
@@ -114,7 +114,7 @@ en-title: Initial Travel to Japan
 <img src="/images/IMG_8101.jpg" alt="道顿堀" />
   <img src="/images/IMG_8094.jpg" alt="阿倍野展望台" />
   <img src="/images/IMG_8095.jpg" alt="阿倍野展望台" />
-  
+
   <img src="/images/IMG_8118.jpg" alt="酒店附近" />
   <img src="/images/IMG_8119.jpg" alt="大乌鸦" />
 </div>
@@ -166,7 +166,7 @@ en-title: Initial Travel to Japan
 <img src="/images/IMG_8155.jpg" alt="奈良小鹿" />
   <img src="/images/IMG_8162.jpg" alt="奈良大鹿" />
   <img src="/images/IMG_8201.jpg" alt="春日大社" />
-  
+
 </div>
 
 ---
@@ -241,7 +241,7 @@ en-title: Initial Travel to Japan
   <img src="/images/IMG_8245.jpg" alt="海洋馆水母" />
   <img src="/images/IMG_8309.jpg" alt="清水寺" />
   
-  
+
 </div>
 
 
@@ -288,7 +288,7 @@ en-title: Initial Travel to Japan
   <img src="/images/IMG_8460.jpg" alt="清水寺" />
 </div>
 里面的小黄人调皮闹剧乘车游和北京环球影城也不同，这里是一个车一个包间，所以沉浸式会比北京环球影城的剧院式的强很多
-  
+
 <figure style="border:1px solid var(--c-border,#e5e5ea);border-radius:12px;padding:1px 20px 14px;margin:1.8em 0;width:740px;background:var(--c-bg-card,#f8f8fa)">
   <figcaption style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:500;font-size:0.9em;opacity:0.85">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.5;flex-shrink:0">
